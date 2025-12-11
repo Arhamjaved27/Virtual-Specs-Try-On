@@ -19,6 +19,13 @@ def home():
 
 @app.route('/tryon/image', methods=['GET', 'POST'])
 def tryon_image():
+    # Get available frames
+    frames_dir = os.path.join('static', 'frames')
+    available_frames = []
+    if os.path.exists(frames_dir):
+        available_frames = [f'frames/{f}' for f in os.listdir(frames_dir) 
+                           if f.endswith(('.png', '.PNG', '.jpg', '.jpeg'))]
+    
     if request.method == 'POST':
         file = request.files['photo']
         if file:
@@ -39,8 +46,8 @@ def tryon_image():
             
             # Return only the path relative to static folder
             relative_path = 'uploads/processed_' + file.filename
-            return render_template('tryon_image.html', uploaded_image=relative_path)
-    return render_template('tryon_image.html', uploaded_image=None)
+            return render_template('tryon_image.html', uploaded_image=relative_path, frames=available_frames)
+    return render_template('tryon_image.html', uploaded_image=None, frames=available_frames)
 
 
 if __name__ == '__main__':

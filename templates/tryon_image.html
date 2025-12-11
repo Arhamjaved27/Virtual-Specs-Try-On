@@ -2,20 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Photo Try-On</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 <div class="container">
-    <h1>Upload Your Photo</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="photo" accept="image/*" required>
-        <button type="submit" class="btn">Upload</button>
-    </form>
+    <h1>Virtual Specs Try-On</h1>
+    
+    <!-- Upload Section -->
+    <div class="upload-section">
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="photo" accept="image/*" required id="photoInput">
+            <button type="submit" class="btn">Upload Photo</button>
+        </form>
+    </div>
+    
     {% if uploaded_image %}
-    <h2>Detected Faces</h2>
-    <img src="{{ url_for('static', filename=uploaded_image) }}" class="uploaded-img" style="max-width: 100%; height: auto;">
+    <div class="tryon-workspace">
+        <!-- Frame Selection Panel -->
+        <div class="frame-panel">
+            <h3>Select Frame</h3>
+            <div class="frame-gallery">
+                {% if frames %}
+                    {% for frame in frames %}
+                    <div class="frame-option" data-frame="{{ url_for('static', filename=frame) }}">
+                        <img src="{{ url_for('static', filename=frame) }}" alt="Frame">
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-frames">No frames available. Add PNG frames to static/frames/</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Image Preview with Frame Overlay -->
+        <div class="preview-panel">
+            <h3>Preview</h3>
+            <div class="image-container" id="imageContainer">
+                <img src="{{ url_for('static', filename=uploaded_image) }}" 
+                     class="uploaded-img" 
+                     id="uploadedImage" 
+                     alt="Uploaded photo">
+                <img src="" 
+                     class="frame-overlay" 
+                     id="frameOverlay" 
+                     alt="Frame overlay"
+                     style="display: none;">
+            </div>
+        </div>
+        
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+            <h3>Adjust Frame</h3>
+            
+            <div class="control-group">
+                <label for="frameX">Horizontal Position: <span id="frameXValue">50</span>%</label>
+                <input type="range" id="frameX" min="0" max="100" value="50" class="slider">
+            </div>
+            
+            <div class="control-group">
+                <label for="frameY">Vertical Position: <span id="frameYValue">30</span>%</label>
+                <input type="range" id="frameY" min="0" max="100" value="30" class="slider">
+            </div>
+            
+            <div class="control-group">
+                <label for="frameWidth">Width: <span id="frameWidthValue">40</span>%</label>
+                <input type="range" id="frameWidth" min="10" max="100" value="40" class="slider">
+            </div>
+            
+            <div class="control-group">
+                <label for="frameOpacity">Opacity: <span id="frameOpacityValue">100</span>%</label>
+                <input type="range" id="frameOpacity" min="0" max="100" value="100" class="slider">
+            </div>
+            
+            <button class="btn btn-secondary" id="resetBtn">Reset Position</button>
+        </div>
+    </div>
     {% endif %}
+    
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+    </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/frame-overlay.js') }}"></script>
 </body>
 </html>
