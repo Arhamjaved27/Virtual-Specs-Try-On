@@ -3,13 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Upload</title>
+    <title>Arham Virtual Specs Try-On</title>
+
+     <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
   </head>
   <body>
-    <h1>Upload an image</h1>
-    <form method="post" action="/upload" enctype="multipart/form-data">
-      <input type="file" name="file" accept="image/*" required>
-      <button type="submit">Upload</button>
-    </form>
-  </body>
+    <div class="container">
+        <h1>Virtual Specs Try-On</h1>
+        <div class="mode-selection">
+            <a href="{{ url_for('tryon_image') }}" class="btn">Upload Photo</a>
+        </div>
+    </div>
+</body>
 </html>
