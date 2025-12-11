@@ -1,0 +1,3 @@
+lask
+opencv-python
+numpy
