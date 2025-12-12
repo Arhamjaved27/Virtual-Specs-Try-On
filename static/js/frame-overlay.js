@@ -32,6 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
             frameOverlay.src = frameSrc;
             frameOverlay.style.display = 'block';
             
+            // Auto-align if face data is available
+            if (typeof faceData !== 'undefined' && faceData) {
+                frameX.value = faceData.x;
+                frameY.value = faceData.y;
+                frameWidth.value = faceData.width;
+                
+                console.log(faceData);
+            }
+            
             updateFramePosition();
         });
     });

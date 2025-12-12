@@ -11,10 +11,16 @@
 </head>
 
 <body>
-    <div id="face-data-storage" data-json="{{ face_data | tojson | safe }}" style="display: none;"></div>
+    <div id="face-data-storage" data-json='{{ face_data | tojson | safe }}' style="display: none;"></div>
     <script>
         var faceDataStorage = document.getElementById('face-data-storage');
-        var faceData = faceDataStorage ? JSON.parse(faceDataStorage.getAttribute('data-json')) : null;
+        var faceData = null;
+        try {
+            faceData = faceDataStorage ? JSON.parse(faceDataStorage.getAttribute('data-json')) : null;
+            console.log("Parsed Face Data:", faceData);
+        } catch (e) {
+            console.error("Error parsing face data:", e);
+        }
     </script>
     <div class="container">
         <h1>Virtual Specs Try-On</h1>
