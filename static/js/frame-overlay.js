@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 frameX.value = faceData.x;
                 frameY.value = faceData.y;
                 frameWidth.value = faceData.width;
-                // frameRotation.value = faceData.rotation;
+                frameRotation.value = faceData.rotation;
                 
                 console.log(faceData);
             }
@@ -88,72 +88,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (frameOptions.length > 0) {
         // frameOptions[0].click();
-    }
-
-    // Download functionality
-    const downloadBtn = document.getElementById('downloadBtn');
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', downloadCompositeImage);
-    }
-
-    function downloadCompositeImage() {
-        if (!currentFrame) {
-            alert('Please select a frame first.');
-            return;
-        }
-
-        const uploadedImg = document.getElementById('uploadedImage');
-        const frameImg = document.getElementById('frameOverlay');
-
-        if (!uploadedImg || !frameImg) return;
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = uploadedImg.naturalWidth;
-        canvas.height = uploadedImg.naturalHeight;
-
-        ctx.drawImage(uploadedImg, 0, 0, canvas.width, canvas.height);
-
-        const xPercent = parseFloat(frameX.value) / 1000; // 0.0 to 1.0 (value is 0-1000)
-        const yPercent = parseFloat(frameY.value) / 1000; // 0.0 to 1.0
-        const widthPercent = parseFloat(frameWidth.value) / 1000; // 0.0 to 1.0
-        
-        const frameCenterX = xPercent * canvas.width;
-        const frameCenterY = yPercent * canvas.height;
-        const frameW = widthPercent * canvas.width;
-        
-        const aspectRatio = frameImg.naturalHeight / frameImg.naturalWidth;
-        const frameH = frameW * aspectRatio;
-
-        const rotation = parseFloat(frameRotation.value);
-
-        const glassesImg = new Image();
-        glassesImg.crossOrigin = "anonymous"; // Handle potential CORS issues if images are external
-        glassesImg.src = frameImg.src;
-
-        glassesImg.onload = function() {
-            ctx.save();
-            
-            ctx.translate(frameCenterX, frameCenterY);
-            
-            // Rotate
-            ctx.rotate(rotation * Math.PI / 180);
-            ctx.globalAlpha = parseFloat(frameOpacity.value) / 100;
-            ctx.drawImage(glassesImg, -frameW / 2, -frameH / 2, frameW, frameH);
-            ctx.restore();
-
-            const link = document.createElement('a');
-            link.download = 'virtual-tryon-result.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        };
-        
-        
-        if (glassesImg.complete && glassesImg.naturalHeight !== 0) {
-           // It's safer to just rely on onload for the new Image object, 
-           // or we can reuse the DOM element if we are sure.
-           // Let's stick to the onload pattern which is robust for new Image().
-        }
     }
 });
