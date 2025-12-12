@@ -8,12 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const frameY = document.getElementById('frameY');
     const frameWidth = document.getElementById('frameWidth');
     const frameOpacity = document.getElementById('frameOpacity');
+    const frameRotation = document.getElementById('frameRotation');
     
     // Value displays
     const frameXValue = document.getElementById('frameXValue');
     const frameYValue = document.getElementById('frameYValue');
     const frameWidthValue = document.getElementById('frameWidthValue');
     const frameOpacityValue = document.getElementById('frameOpacityValue');
+    const frameRotationValue = document.getElementById('frameRotationValue');
     
     const resetBtn = document.getElementById('resetBtn');
     
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 frameX.value = faceData.x;
                 frameY.value = faceData.y;
                 frameWidth.value = faceData.width;
+                frameRotation.value = faceData.rotation;
                 
                 console.log(faceData);
             }
@@ -53,29 +56,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const y = frameY.value / 10;
         const width = frameWidth.value / 10;
         const opacity = frameOpacity.value / 100;
+        const rotation = frameRotation.value;
         
         frameOverlay.style.left = x + '%';
         frameOverlay.style.top = y + '%';
         frameOverlay.style.width = width + '%';
         frameOverlay.style.opacity = opacity;
-        frameOverlay.style.transform = 'translate(-50%, -50%)';
+        frameOverlay.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
         
         frameXValue.textContent = x.toFixed(1);
         frameYValue.textContent = y.toFixed(1);
         frameWidthValue.textContent = width.toFixed(1);
         frameOpacityValue.textContent = Math.round(opacity * 100);
+        frameRotationValue.textContent = rotation;
     }
     
     frameX.addEventListener('input', updateFramePosition);
     frameY.addEventListener('input', updateFramePosition);
     frameWidth.addEventListener('input', updateFramePosition);
     frameOpacity.addEventListener('input', updateFramePosition);
+    frameRotation.addEventListener('input', updateFramePosition);
     
     resetBtn.addEventListener('click', function() {
         frameX.value = 500;   // 50%
         frameY.value = 300;   // 30%
         frameWidth.value = 400; // 40%
         frameOpacity.value = 100;
+        frameRotation.value = 0;
         updateFramePosition();
     });
     

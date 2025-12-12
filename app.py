@@ -44,27 +44,20 @@ def tryon_image():
                 # Use the first face found (usually largest/clearest)
                 (x, y, w, h) = faces[0]
                 img_h, img_w, _ = img.shape
+                rotation_angle = 0
                 
-                # Calculate ideal positions (0-1000 scale to match sliders)
-                # Center X: middle of face
                 center_x = ((x + w/2) / img_w) * 1000
-                
-                # Eye Y: approx 35-40% down from top of face box
-                # Face box usually includes forehead, so eyes are roughly at top 1/3
                 eye_y = ((y + h*0.37) / img_h) * 1000
                 
-                # Try to detect eyes for better precision
                 roi_gray = gray[y:y+h, x:x+w]
-                # Detect eyes in the upper half of the face to avoid false positives
                 eyes = eye_cascade.detectMultiScale(roi_gray[:int(h/2), :])
                 
                 if len(eyes) >= 2:
-                    # Sort eyes by size to get the two most prominent ones (usually the actual eyes)
                     eyes = sorted(eyes, key=lambda e: e[2] * e[3], reverse=True)[:2]
-                    # Convert to absolute coordinates
                     eye_centers = []
                     for (ex, ey, ew, eh) in eyes:
                         eye_centers.append((x + ex + ew/2, y + ey + eh/2))
+                    
                     
                     # Calculate center point between eyes
                     avg_eye_x = (eye_centers[0][0] + eye_centers[1][0]) / 2
@@ -73,18 +66,25 @@ def tryon_image():
                     center_x = (avg_eye_x / img_w) * 1000
                     eye_y = (avg_eye_y / img_h) * 1000
 
-                # Width: glasses should be slightly wider than face (e.g. 90-100% of face width)
-                # We map this to % of image width
+                    # Calculate Rotation
+                    eye_centers.sort(key=lambda p: p[0])
+                    left_eye_center = eye_centers[0]
+                    right_eye_center = eye_centers[1]
+                    
+                    dY = right_eye_center[1] - left_eye_center[1]
+                    dX = right_eye_center[0] - left_eye_center[0]
+                    rotation_angle = np.degrees(np.arctan2(dY, dX))
+
                 width_percent = (w / img_w) * 1000 * 1.0 # 1.0 scaling factor
                 
                 face_data = {
                     'x': round(center_x, 1),
                     'y': round(eye_y, 1),
-                    'width': round(width_percent, 1)
+                    'width': round(width_percent, 1),
+                    'rotation': round(rotation_angle, 1)
                 }
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                # # --- VISUALIZATION FOR DEBUGGING ---
                 # # Draw Face Box (Blue)
                 # cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
                 
@@ -116,7 +116,6 @@ if __name__ == '__main__':
     from livereload import Server
     app.debug = True
     server = Server(app.wsgi_app)
-    # Watch static and templates folders for changes
     server.watch('static/')
     server.watch('templates/')
     server.serve(port=5000)
