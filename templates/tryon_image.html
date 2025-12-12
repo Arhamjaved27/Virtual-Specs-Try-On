@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Photo Try-On</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
 </head>
 
 <body>
+    <div id="face-data-storage" data-json="{{ face_data | tojson | safe }}" style="display: none;"></div>
+    <script>
+        var faceDataStorage = document.getElementById('face-data-storage');
+        var faceData = faceDataStorage ? JSON.parse(faceDataStorage.getAttribute('data-json')) : null;
+    </script>
     <div class="container">
         <h1>Virtual Specs Try-On</h1>
 
@@ -91,6 +98,11 @@
                 <div class="control-group">
                     <label for="frameOpacity">Opacity: <span id="frameOpacityValue">100</span>%</label>
                     <input type="range" id="frameOpacity" min="0" max="100" value="100" class="slider">
+                </div>
+
+                <div class="control-group">
+                    <label for="frameRotation">Rotation: <span id="frameRotationValue">0</span>°</label>
+                    <input type="range" id="frameRotation" min="-45" max="45" value="0" class="slider">
                 </div>
 
                 <button class="btn btn-secondary" id="resetBtn">Reset Position</button>
