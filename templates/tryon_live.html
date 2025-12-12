@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live Try-On | Arham Eyewear</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/live_tryon.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navbar  Same as Index -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <i class="fa-solid fa-glasses"></i> Arham<span>Optics</span>
+        </a>
+        <div class="nav-actions">
+            <a href="{{ url_for('home') }}" class="btn btn-outline">Back Home</a>
+        </div>
+    </nav>
+
+    <div class="workspace-container">
+        <!-- Video Area -->
+        <div class="video-panel">
+            <div id="loadingOverlay">
+                <p><i class="fa-solid fa-spinner fa-spin"></i> Loading AI Models...</p>
+            </div>
+            <div id="debugStatus"
+                style="position: absolute; top: 10px; left: 10px; z-index: 20; color: lime; background: rgba(0,0,0,0.5); padding: 5px; font-family: monospace; font-size: 12px; pointer-events: none;">
+                Initializing...
+            </div>
+            <video id="inputVideo" autoplay muted playsinline></video>
+            <canvas id="overlayCanvas"></canvas>
+        </div>
+
+        <!-- Controls Area -->
+        <div class="controls-sidebar">
+            <a href="{{ url_for('home') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+
+            <h2>Select Frames</h2>
+            <div class="frame-grid">
+                {% if frames %}
+                {% for frame in frames %}
+                <div class="frame-option" data-frame="{{ url_for('static', filename=frame) }}">
+                    <img src="{{ url_for('static', filename=frame) }}" alt="Frame">
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="no-frames">No frames found.</p>
+                {% endif %}
+            </div>
+
+            <h2>Fine Tune</h2>
+            <!-- Sliders Area -->
+            <div class="slider-group">
+                <label>Horizontal Offset <span id="offsetXValue">0</span>px</label>
+                <input type="range" id="offsetX" min="-100" max="100" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label>Vertical Offset <span id="offsetYValue">0</span>px</label>
+                <input type="range" id="offsetY" min="-100" max="100" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label>Scale <span id="scaleScaleValue">1.0</span>x</label>
+                <input type="range" id="scaleScale" min="0.5" max="2.0" step="0.05" value="1.0">
+            </div>
+
+            <p style="font-size: 0.8rem; color: #999; margin-top:20px;">
+                <i class="fa-solid fa-lightbulb"></i> Tip: Face alignment is automatic. Use sliders for minor
+                adjustments.
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="{{ url_for('static', filename='js/live_tryon.js') }}"></script>
+</body>
+
+</html>

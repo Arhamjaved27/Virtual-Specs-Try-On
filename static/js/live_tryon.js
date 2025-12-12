@@ -1,224 +1,182 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // --- DOM Elements ---
-    const video = document.getElementById('inputVideo');
-    const overlayCanvas = document.getElementById('overlayCanvas');
-    const overlayCtx = overlayCanvas.getContext('2d');
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    const frameOptions = document.querySelectorAll('.frame-option');
-    
-    // Sliders for manual adjustments
-    const offsetXSlider = document.getElementById('offsetX');
-    const offsetYSlider = document.getElementById('offsetY');
-    const scaleSlider = document.getElementById('scaleScale');
-    const offsetXValue = document.getElementById('offsetXValue');
-    const offsetYValue = document.getElementById('offsetYValue');
-    const scaleValue = document.getElementById('scaleScaleValue');
+const video = document.getElementById('inputVideo');
+const canvas = document.getElementById('overlayCanvas');
+const ctx = canvas.getContext('2d');
+const loadingOverlay = document.getElementById('loadingOverlay');
 
-    // --- State Variables ---
-    let currentFrameSrc = null; // URL of the selected specs image
-    let currentFrameImg = new Image(); // The actual Image object
-    let isModelLoaded = false;
-    let lastFaceData = null; // { x, y, width, rotation }
-    
-    // Path to models
-    const MODEL_URL = '/static/models';
+// Adjustment controls
+const inputs = {
+    offsetX: document.getElementById('offsetX'),
+    offsetY: document.getElementById('offsetY'),
+    scale: document.getElementById('scaleScale')
+};
+const displays = {
+    offsetX: document.getElementById('offsetXValue'),
+    offsetY: document.getElementById('offsetYValue'),
+    scale: document.getElementById('scaleScaleValue')
+};
 
-    // --- 1. Initialization: Load Models & Start Camera ---
-    async function init() {
-        try {
-            console.log("Loading models from:", MODEL_URL);
-            await Promise.all([
-                faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-                faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL)
-            ]);
-            console.log("Models loaded successfully");
-            isModelLoaded = true;
-            
-            // Start Camera
-            startCamera();
-        } catch (err) {
-            console.error("Error loading models:", err);
-            loadingOverlay.innerHTML = `<p style='color:red;'>Error loading AI models.<br>${err.message}</p>`;
-        }
+let currentFrame = new Image();
+let isFrameLoaded = false;
+let canvasSize = { width: 640, height: 480 };
+
+// Load models
+Promise.all([
+    faceapi.nets.tinyFaceDetector.loadFromUri('/static/models'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('/static/models')
+]).then(startVideo).catch(err => {
+    console.error(err);
+    alert('Error loading AI models. Check console.');
+});
+
+const videoPanel = document.querySelector('.video-panel');
+
+function resizeVideoInContainer() {
+    if (!video.videoWidth || !video.videoHeight) return;
+
+    const containerWidth = videoPanel.clientWidth;
+    const containerHeight = videoPanel.clientHeight;
+    const videoAspect = video.videoWidth / video.videoHeight;
+    const containerAspect = containerWidth / containerHeight;
+
+    let finalWidth, finalHeight;
+
+    if (containerAspect > videoAspect) {
+        finalWidth = containerWidth;
+        finalHeight = containerWidth / videoAspect;
+    } else {
+        finalHeight = containerHeight;
+        finalWidth = containerHeight * videoAspect;
     }
 
-    async function startCamera() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } 
-            });
-            video.srcObject = stream;
-            video.play();
-        } catch (err) {
-            console.error("Camera Error:", err);
-            alert("Could not access camera. Please allow camera permissions.");
-        }
-    }
+    video.style.width = `${finalWidth}px`;
+    video.style.height = `${finalHeight}px`;
+    canvas.style.width = `${finalWidth}px`;
+    canvas.style.height = `${finalHeight}px`;
 
-    // --- 2. Video Event Handlers ---
-    video.addEventListener('loadedmetadata', () => {
-        overlayCanvas.width = video.videoWidth;
-        overlayCanvas.height = video.videoHeight;
+    canvas.width = finalWidth;
+    canvas.height = finalHeight;
+    
+    // Update global for detection loop
+    canvasSize = { width: finalWidth, height: finalHeight };
+    faceapi.matchDimensions(canvas, canvasSize);
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    resizeVideoInContainer();
+});
+
+function startVideo() {
+    navigator.mediaDevices.getUserMedia({ 
+        video: { 
+            width: { ideal: 1280 }, 
+            height: { ideal: 720 },
+            facingMode: 'user'
+        } 
+    })
+    .then(stream => {
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch(err => {
+        console.error('Error accessing webcam:', err);
+        alert("Cannot access camera. Ensure permissions are granted.");
     });
+}
 
-    video.addEventListener('play', () => {
-        // Ensure dimensions match
-        const displaySize = { width: video.videoWidth, height: video.videoHeight };
-        faceapi.matchDimensions(overlayCanvas, displaySize);
+video.addEventListener('loadedmetadata', () => {
+    resizeVideoInContainer();
+    loadingOverlay.style.display = 'none';
+});
 
-        // Hide loading overlay
-        loadingOverlay.style.display = 'none';
-
-        // Start loops
-        detectFaceLoop();
-        drawLoop();
-    });
-
-    // --- 3. Face Detection Loop ---
-    async function detectFaceLoop() {
-        if (video.paused || video.ended || !isModelLoaded) {
-            setTimeout(detectFaceLoop, 100);
-            return;
-        }
-
-        // Use TinyFaceDetector
-        // Lowered score threshold to 0.5 to ensure detection
-        const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 224, scoreThreshold: 0.5 });
+video.addEventListener('play', () => {
+    resizeVideoInContainer();
+    
+    setInterval(async () => {
+        // I use the video as input. FaceAPI detects on the video's intrinsic resolution.
         
-        // Detect
-        const result = await faceapi.detectSingleFace(video, options).withFaceLandmarks();
+        const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
 
-        if (result) {
-            const displaySize = { width: video.videoWidth, height: video.videoHeight };
-            const resizedResult = faceapi.resizeResults(result, displaySize);
-            const landmarks = resizedResult.landmarks;
-            
-            // Helper to get average point
-            const getCenter = (points) => {
-                const sum = points.reduce((acc, curr) => ({ x: acc.x + curr.x, y: acc.y + curr.y }), { x: 0, y: 0 });
-                return { x: sum.x / points.length, y: sum.y / points.length };
-            };
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        if (detection && isFrameLoaded) {
+            // Resize to the current calculated display size
+            const resizedDetections = faceapi.resizeResults(detection, canvasSize);
+            const landmarks = resizedDetections.landmarks;
+
+            // Get eye coordinates
             const leftEye = landmarks.getLeftEye();
             const rightEye = landmarks.getRightEye();
 
+            // Calculate centers
             const leftEyeCenter = getCenter(leftEye);
             const rightEyeCenter = getCenter(rightEye);
 
-            // Calculate Angle
-            const dy = rightEyeCenter.y - leftEyeCenter.y;
-            const dx = rightEyeCenter.x - leftEyeCenter.x;
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            // Calculate glasses parameters
+            const nose = landmarks.getNose();
+            const glassesCenterX = (leftEyeCenter.x + rightEyeCenter.x) / 2;
+            const glassesCenterY = (leftEyeCenter.y + rightEyeCenter.y) / 2;
 
-            // Center between eyes
-            const centerX = (leftEyeCenter.x + rightEyeCenter.x) / 2;
-            const centerY = (leftEyeCenter.y + rightEyeCenter.y) / 2;
+            const dY = rightEyeCenter.y - leftEyeCenter.y;
+            const dX = rightEyeCenter.x - leftEyeCenter.x;
+            const angle = Math.atan2(dY, dX);
 
-            // Width based on IPD (Inter-pupillary distance)
-            const ipd = Math.sqrt(dx*dx + dy*dy);
-            const width = ipd * 2.2; // Adjust multiplier for glasses size
-
-            lastFaceData = {
-                x: centerX,
-                y: centerY,
-                width: width,
-                rotation: angle,
-                box: resizedResult.detection.box // Save for debug drawing
-            };
-        } else {
-            // Optional: clear lastFaceData if you want frames to disappear when face is lost
-            // lastFaceData = null; 
-        }
-
-        setTimeout(detectFaceLoop, 0); 
-    }
-
-    // --- 4. Rendering Loop ---
-    function drawLoop() {
-        overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-
-        // Ensure canvas matches video size
-        if (overlayCanvas.width !== video.videoWidth || overlayCanvas.height !== video.videoHeight) {
-             overlayCanvas.width = video.videoWidth;
-             overlayCanvas.height = video.videoHeight;
-        }
-
-        if (lastFaceData) {
-            // Draw Debug Box (Green) - Visual confirmation of detection
-            const box = lastFaceData.box;
-            if (box) {
-                overlayCtx.strokeStyle = 'cyan';
-                overlayCtx.lineWidth = 2;
-                overlayCtx.strokeRect(box.x, box.y, box.width, box.height);
-            }
-
-            if (currentFrameSrc) {
-                let { x, y, width, rotation } = lastFaceData;
-
-                // Apply Manual Offsets
-                const offX = parseInt(offsetXSlider.value);
-                const offY = parseInt(offsetYSlider.value);
-                const scale = parseFloat(scaleSlider.value);
-
-                x += offX;
-                y += offY;
-                width *= scale;
-
-                const aspect = currentFrameImg.naturalWidth > 0 ? (currentFrameImg.naturalHeight / currentFrameImg.naturalWidth) : 0.5;
-                const height = width * aspect;
-
-                // Draw Specs
-                overlayCtx.save();
-                overlayCtx.translate(x, y);
-                overlayCtx.rotate(rotation * Math.PI / 180);
-                overlayCtx.drawImage(currentFrameImg, -width/2, -height/2, width, height);
-                overlayCtx.restore();
-            }
-        }
-
-        requestAnimationFrame(drawLoop);
-    }
-
-    // --- 5. Event Listeners (UI) ---
-
-    // Frame Selection
-    frameOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Remove active from all
-            frameOptions.forEach(opt => opt.classList.remove('active'));
-            // Add active to click
-            this.classList.add('active');
-
-            currentFrameSrc = this.getAttribute('data-frame');
-            console.log("Selected frame:", currentFrameSrc);
+            // Use Jaw outline to determine face width
+            const jaw = landmarks.getJawOutline();
+            const jawLeft = jaw[0];
+            const jawRight = jaw[16];
+            const faceWidth = Math.sqrt(Math.pow(jawRight.x - jawLeft.x, 2) + Math.pow(jawRight.y - jawLeft.y, 2));
+            const baseScale = 1.1; 
+            const userScale = parseFloat(inputs.scale.value);
+            const glassesWidth = faceWidth * baseScale * userScale;
             
-            // Update Image Object
-            currentFrameImg = new Image();
-            currentFrameImg.src = currentFrameSrc;
+            // Maintain aspect ratio
+            const aspectRatio = currentFrame.height / currentFrame.width;
+            const glassesHeight = glassesWidth * aspectRatio;
+
+            // Apply offsets (user adjustment)
+            const offsetX = parseInt(inputs.offsetX.value);
+            const offsetY = parseInt(inputs.offsetY.value);
+
+            ctx.save();
+            ctx.translate(glassesCenterX + offsetX, glassesCenterY + offsetY);
+            ctx.rotate(angle);
+            ctx.drawImage(currentFrame, -glassesWidth / 2, -glassesHeight / 2, glassesWidth, glassesHeight);
+            ctx.restore();
             
-            // Optional: reset sliders on new frame? 
-            // offsetXSlider.value = 0; offsetYSlider.value = 0; scaleSlider.value = 1.0;
-            // updateDisplays();
-        });
-    });
-
-    // Default select first frame
-    if (frameOptions.length > 0) {
-        frameOptions[0].click();
-    } else {
-        console.warn("No frames found in DOM");
-    }
-
-    // Slider Updates
-    function updateVal(slider, display) {
-        slider.addEventListener('input', () => {
-            display.textContent = slider.value;
-        });
-    }
-    updateVal(offsetXSlider, offsetXValue);
-    updateVal(offsetYSlider, offsetYValue);
-    updateVal(scaleSlider, scaleValue);
-
-    // Run Init
-    init();
+            //  Show skeleton
+            //  faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+        }
+    }, 100); // 10 fps usually sufficient for trying on, increase for smoothness
 });
+
+function getCenter(points) {
+    const sum = points.reduce((a, b) => ({ x: a.x + b.x, y: a.y + b.y }), { x: 0, y: 0 });
+    return { x: sum.x / points.length, y: sum.y / points.length };
+}
+
+// Frame Selection Logic
+const frameOptions = document.querySelectorAll('.frame-option');
+frameOptions.forEach(option => {
+    option.addEventListener('click', function() {
+        frameOptions.forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+        
+        const src = this.getAttribute('data-frame');
+        currentFrame.src = src;
+        currentFrame.onload = () => { isFrameLoaded = true; };
+    });
+});
+
+// Update value displays
+Object.keys(inputs).forEach(key => {
+    inputs[key].addEventListener('input', (e) => {
+        displays[key].textContent = e.target.value;
+    });
+});
+
+// Select first frame by default if available
+if (frameOptions.length > 0) {
+    frameOptions[0].click();
+}
+

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Configuration ---
     const MODEL_URL = '/static/models';
     
     // --- DOM Elements ---
@@ -30,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentFrameSrc = null;
     let isModelLoaded = false;
 
-    // --- Initialization ---
     async function init() {
         if (!uploadedImage) return; // No image uploaded
 
@@ -91,18 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const dx = rightEyeCenter.x - leftEyeCenter.x;
             const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            // Center between eyes
-            // These coordinates are relative to the image element's natural or displayed size depending on how FaceAPI processed it. 
-            // Since we passed the HTMLImageElement, FaceAPI usually processes it at natural size or internal inputSize, 
-            // but the result landmarks are usually mapped to the image dimensions.
-            
             // FaceAPI result dimensions:
             const dims = result.detection.imageDims; 
-            // Note: If inputSize was smaller, landmarks might need resizing if we weren't careful, 
-            // but detectSingleFace(img) generally returns coords relative to 'img'.
-            
-            // However, for consistency, let's just use the coordinates returned which are pixels on the image.
-            
             const centerX = (leftEyeCenter.x + rightEyeCenter.x) / 2;
             const centerY = (leftEyeCenter.y + rightEyeCenter.y) / 2;
 
@@ -110,13 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const ipd = Math.sqrt(dx*dx + dy*dy);
             const widthPixels = ipd * 2.2; 
 
-            // Convert to percentages for the overlay system
-            // The overlay system uses 0-1000 range for positions (0.1%)
-            // and maybe pixels or percent for width... wait, let's check HTML slider:
-            // Width slider: min 100 max 1000 => seems to be 0-1000 scale relative to image width?
-            // Checking frame-overlay.js would confirm, but let's assume valid range is comparable to app.py logic.
-            // In app.py: width_percent = (w / img_w) * 1000
-            
             const imgWidth = dims.width;
             const imgHeight = dims.height;
 
@@ -152,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
         sliders.rotation.value = data.rotation;
         sliderValues.rotation.textContent = data.rotation.toFixed(1);
 
-        // Trigger update to visual
         updateOverlay();
     }
 
@@ -215,11 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
             frameOverlay.style.display = 'block';
             
             if (faceData) {
-                // If we have face data, maybe we should re-apply it?
-                // But typically switching frames shouldn't necessarily reset position unless we want to snap back to eyes.
-                // Let's stick to current connection. 
-                // But wait, the original logic in frame-overlay.js re-applied faceData on click if available.
-                // Let's do that for consistency.
                  applyFaceData(faceData);
             } else {
                 updateFramePosition();
@@ -229,14 +204,34 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Select first frame by default
     if (frameOptions.length > 0) {
-        // Don't auto-click here if it might conflict with init order, 
-        // but `init` calls `detectFace` which sets `faceData` and calls `applyFaceData`.
-        // So safe to click now to set initial state.
-        frameOptions[0].click();
+        // frameOptions[0].click();
     }
 
     // Initialize
     init();
+
+    // --- File Input Styling Logic (Merged) ---
+    const fileInput = document.getElementById('file');
+    const fileTextSpan = document.querySelector('.custum-file-upload .text span');
+
+    if (fileInput && fileTextSpan) {
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files.length > 0) {
+                let fileName = e.target.files[0].name;
+                if (fileName.length > 25) {
+                    fileName = fileName.substring(0, 22) + '...';
+                }
+                fileTextSpan.textContent = fileName;
+                fileTextSpan.style.color = '#ffffff'; // Ensure text is visible
+                
+                const container = document.querySelector('.custum-file-upload');
+                container.style.borderColor = 'var(--color-primary)';
+                container.style.backgroundColor = 'rgba(141, 123, 104, 0.9)';
+            } else {
+                fileTextSpan.textContent = 'Click to upload image';
+            }
+        });
+    }
 
 });
 

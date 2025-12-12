@@ -46,6 +46,17 @@ def tryon_image():
             
     return render_template('tryon_image.html', uploaded_image=None, frames=available_frames, face_data=None)
 
+@app.route('/tryon/live')
+def tryon_live():
+    # Get available frames logic is duplicated, but okay for now or could refactor
+    frames_dir = os.path.join('static', 'frames')
+    available_frames = []
+    if os.path.exists(frames_dir):
+        available_frames = [f'frames/{f}' for f in os.listdir(frames_dir) 
+                           if f.endswith(('.png', '.PNG', '.jpg', '.jpeg'))]
+    return render_template('tryon_live.html', frames=available_frames)
+
+
 
 if __name__ == '__main__':
     from livereload import Server

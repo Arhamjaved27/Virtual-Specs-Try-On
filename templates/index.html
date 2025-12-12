@@ -4,18 +4,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Arham Virtual Specs Try-On</title>
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>Arham Eyewear | Virtual Try-On</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
 
 <body>
-  <div class="container">
-    <h1>Virtual Specs Try-On</h1>
-    <div class="mode-selection">
-      <a href="{{ url_for('tryon_image') }}" class="btn">Upload Photo</a>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="#" class="logo">
+      <i class="fa-solid fa-glasses"></i> Arham<span>Optics</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Technology</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Navigation Buttons as requested -->
+      <a href="{{ url_for('tryon_image') }}" class="btn btn-outline">Photo Try-On</a>
+      <a href="{{ url_for('tryon_live') }}" class="btn btn-primary">Live Camera</a>
     </div>
-  </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-tag">New Collection 2024</span>
+      <h1>Find Your Perfect <br><span>Frame</span> of Mind.</h1>
+      <p>
+        Experience the future of eyewear selection with our cutting-edge virtual try-on technology.
+        Upload a photo or use your camera to see how our premium frames fit your unique style instantly.
+      </p>
+      <div class="hero-buttons">
+        <a href="{{ url_for('tryon_live') }}" class="btn btn-primary">Start Live Try-On</a>
+        <a href="#collections" class="btn btn-outline">View Collections</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <!-- Using the user uploaded image which we copied to static/hero_bg.png -->
+      <!-- If the generate_image tool succeeded we would use that, but it failed so we use manual fallback or the copied one -->
+      <img src="{{ url_for('static', filename='bg_main.jpg') }}" alt="Premium Eyeglasses"
+        onerror="this.src='https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=1000&auto=format&fit=crop'">
+    </div>
+  </section>
+
 </body>
 
 </html>
