@@ -12,15 +12,3 @@ if(photoInput) {
     });
 }
 
-// Frame controls
-const moveX = document.getElementById('moveX');
-const moveY = document.getElementById('moveY');
-const scale = document.getElementById('scale');
-
-function updateFrame() {
-    frame.style.transform = `translate(${moveX.value}px, ${moveY.value}px) scale(${scale.value/100})`;
-}
-
-[moveX, moveY, scale].forEach(input => {
-    input.addEventListener('input', updateFrame);
-});

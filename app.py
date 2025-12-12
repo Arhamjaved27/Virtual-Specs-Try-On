@@ -51,4 +51,10 @@ def tryon_image():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    from livereload import Server
+    app.debug = True
+    server = Server(app.wsgi_app)
+    # Watch static and templates folders for changes
+    server.watch('static/')
+    server.watch('templates/')
+    server.serve(port=5000)
