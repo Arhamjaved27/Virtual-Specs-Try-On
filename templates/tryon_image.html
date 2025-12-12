@@ -11,17 +11,9 @@
 </head>
 
 <body>
-    <div id="face-data-storage" data-json='{{ face_data | tojson | safe }}' style="display: none;"></div>
-    <script>
-        var faceDataStorage = document.getElementById('face-data-storage');
-        var faceData = null;
-        try {
-            faceData = faceDataStorage ? JSON.parse(faceDataStorage.getAttribute('data-json')) : null;
-            console.log("Parsed Face Data:", faceData);
-        } catch (e) {
-            console.error("Error parsing face data:", e);
-        }
-    </script>
+    <!-- FaceAPI from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
     <div class="container">
         <h1>Virtual Specs Try-On</h1>
 
@@ -124,8 +116,10 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/frame-overlay.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/frame-overlay.js') }}"></script> -->
     <script src="{{ url_for('static', filename='js/file-upload.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/image_tryon.js') }}"></script>
+
 </body>
 
 </html>
