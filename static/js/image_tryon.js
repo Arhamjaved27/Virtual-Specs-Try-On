@@ -87,19 +87,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log("Detecting face...");
         
-        // 1. Detect Face
+        // Detect Face
         const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 512, scoreThreshold: 0.5 });
         const result = await faceapi.detectSingleFace(uploadedImage, options).withFaceLandmarks();
 
         if (result) {
             console.log("Face detected!", result);
             
-            // 2. Calculate Key Points
+            // Calculate Key Points
             const landmarks = result.landmarks;
             const leftEye = landmarks.getLeftEye();
             const rightEye = landmarks.getRightEye();
 
-            // Helper: Get centroid of a point array
+            // Get centroid of a point array
             const getCenter = (points) => {
                 const sum = points.reduce((acc, curr) => ({ x: acc.x + curr.x, y: acc.y + curr.y }), { x: 0, y: 0 });
                 return { x: sum.x / points.length, y: sum.y / points.length };
@@ -108,21 +108,35 @@ document.addEventListener('DOMContentLoaded', function() {
             const leftEyeCenter = getCenter(leftEye);
             const rightEyeCenter = getCenter(rightEye);
 
-            // 3. Calculate Rotation (Angle)
+            // Calculate Rotation (Angle)
             const dy = rightEyeCenter.y - leftEyeCenter.y;
             const dx = rightEyeCenter.x - leftEyeCenter.x;
             const angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-            // 4. Calculate Position & Width
+            // Calculate Position & Width
             const dims = result.detection.imageDims; 
             const centerX = (leftEyeCenter.x + rightEyeCenter.x) / 2;
             const centerY = (leftEyeCenter.y + rightEyeCenter.y) / 2;
 
-            // IPD (Inter-pupillary distance) used for scaling
-            const ipd = Math.sqrt(dx*dx + dy*dy);
-            const widthPixels = ipd * 2.2; 
 
-            // 5. Compute Sliders Values (Normalized 0-1000 range)
+            // // IPD (Inter-pupillary distance) used for scaling
+            // const ipd = Math.sqrt(dx*dx + dy*dy);
+            // const widthPixels = ipd * 2.2; 
+
+            // Calculate Width based on Jawline (Face Width)
+            const jaw = landmarks.getJawOutline();
+            const leftFacePoint = jaw[0];
+            const rightFacePoint = jaw[16];
+            
+            const dxFace = rightFacePoint.x - leftFacePoint.x;
+            const dyFace = rightFacePoint.y - leftFacePoint.y;
+            const faceWidth = Math.sqrt(dxFace*dxFace + dyFace*dyFace);
+
+            // Glasses usually sit slightly wider than the face (zygomatic width)
+            // Using a factor of 1.1 to genericize frame sizes
+            const widthPixels = faceWidth * 1.05;
+
+            // Compute Sliders Values (Normalized 0-1000 range)
             const imgWidth = dims.width;
             const imgHeight = dims.height;
 
