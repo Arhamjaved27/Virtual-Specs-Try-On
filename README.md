@@ -88,7 +88,7 @@ Go to your browser and visit:
 
 | **Home Page** | **Live Try-On** | **Image Editor** |
 |:---:|:---:|:---:|
-| ![Home Page](screenshots\SS1.PNG) | ![Live Camera](screenshots\SS6.PNG) | ![Editor Tools](screenshots\SS5.PNG) |
+| ![Home Page](screenshots/SS1.PNG) | ![Live Camera](screenshots/SS6.PNG) | ![Editor Tools](screenshots/SS5.PNG) |
 
 ---
 
