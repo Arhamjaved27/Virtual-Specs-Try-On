@@ -132,8 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const dyFace = rightFacePoint.y - leftFacePoint.y;
             const faceWidth = Math.sqrt(dxFace*dxFace + dyFace*dyFace);
 
-            // Glasses usually sit slightly wider than the face (zygomatic width)
-            // Using a factor of 1.1 to genericize frame sizes
+        
             const widthPixels = faceWidth * 1.05;
 
             // Compute Sliders Values (Normalized 0-1000 range)
