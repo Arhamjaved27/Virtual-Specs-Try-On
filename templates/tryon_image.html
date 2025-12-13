@@ -79,10 +79,28 @@
             <!-- Image Preview with Frame Overlay -->
             <div class="preview-panel">
                 <h3>Preview</h3>
-                <div class="image-container" id="imageContainer">
-                    <img src="{{ url_for('static', filename=uploaded_image) }}" class="uploaded-img" id="uploadedImage"
-                        alt="Uploaded photo">
-                    <img src="" class="frame-overlay" id="frameOverlay" alt="Frame overlay" style="display: none;">
+                <div class="image-container" id="imageContainer" style="overflow: hidden; position: relative;">
+                    <div id="imageZoomWrapper"
+                        style="width: 100%; height: 100%; transition: transform 0.2s ease; transform-origin: top left;">
+                        <img src="{{ url_for('static', filename=uploaded_image) }}" class="uploaded-img"
+                            id="uploadedImage" alt="Uploaded photo">
+                        <img src="" class="frame-overlay" id="frameOverlay" alt="Frame overlay" style="display: none;">
+                    </div>
+
+                    <div class="zoom-controls">
+                        <div class="zoom-buttons">
+                            <button id="zoomInBtn" class="zoom-btn" title="Zoom In"><i
+                                    class="fa-solid fa-plus"></i></button>
+                            <button id="zoomOutBtn" class="zoom-btn" title="Zoom Out"><i
+                                    class="fa-solid fa-minus"></i></button>
+                            <button id="zoomResetBtn" class="zoom-btn" title="Reset Zoom"><i
+                                    class="fa-solid fa-compress"></i></button>
+                        </div>
+                        <div class="pan-control">
+                            <input type="range" id="panXSlider" min="-200" max="200" value="0" step="5"
+                                title="Pan Left/Right">
+                        </div>
+                    </div>
                 </div>
             </div>
 

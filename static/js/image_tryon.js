@@ -194,17 +194,67 @@ document.addEventListener('DOMContentLoaded', function() {
             frameOverlay.src = currentFrameSrc;
             frameOverlay.style.display = 'block';
             
-            if (faceData) {
-                 applyFaceData(faceData);
-            } else {
-                updateFramePosition();
-            }
+            // Retain manual adjustments logic
+            updateFramePosition();
         });
     });
     
     // Select first frame by default
     if (frameOptions.length > 0) {
         // frameOptions[0].click();
+    }
+
+    //  ///////////////////////////  Zoom & Pan Logic ///////////////////////////
+    let currentZoom = 1;
+    let panX = 0;
+    const ZOOM_STEP = 0.1;
+    const MIN_ZOOM = 0.5;
+    const MAX_ZOOM = 3.0;
+    
+    const imageZoomWrapper = document.getElementById('imageZoomWrapper');
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    const zoomResetBtn = document.getElementById('zoomResetBtn');
+    const panXSlider = document.getElementById('panXSlider');
+
+    function updateTransform() {
+        if(imageZoomWrapper) {
+            imageZoomWrapper.style.transform = `scale(${currentZoom}) translate(${panX}px, 0px)`;
+        }
+    }
+
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener('click', () => {
+            if (currentZoom < MAX_ZOOM) {
+                currentZoom += ZOOM_STEP;
+                updateTransform();
+            }
+        });
+    }
+
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener('click', () => {
+            if (currentZoom > MIN_ZOOM) {
+                currentZoom -= ZOOM_STEP;
+                updateTransform();
+            }
+        });
+    }
+
+    if (panXSlider) {
+        panXSlider.addEventListener('input', (e) => {
+            panX = parseInt(e.target.value);
+            updateTransform();
+        });
+    }
+
+    if (zoomResetBtn) {
+        zoomResetBtn.addEventListener('click', () => {
+            currentZoom = 1;
+            panX = 0;
+            if(panXSlider) panXSlider.value = 0;
+            updateTransform();
+        });
     }
 
     // Initialize
