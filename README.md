@@ -84,11 +84,14 @@ Go to your browser and visit:
 
 ## 📸 Screenshots
 
-*(Add your screenshots here! Save them in a `screenshots` folder and link them below)*
-
-| **Home Page** | **Live Try-On** | **Image Editor** |
-|:---:|:---:|:---:|
-| ![Home Page](screenshots/SS1.PNG) | ![Live Camera](screenshots/SS6.PNG) | ![Editor Tools](screenshots/SS5.PNG) |
+| **Name** | **Screen Shot** |
+|:---:|:---:|
+| **Home Page** | ![Home Page](screenshots/SS1.PNG) |
+| **Collection** | ![Collection](screenshots/SS2.PNG) |
+| **Why Chose Us** | ![Why Chose Us](screenshots/SS3.PNG) |
+| **Image Tryon upload** | ![Image Tryon upload](screenshots/SS4.PNG) |
+| **Image Tryon Editor** | ![Image Tryon Editor](screenshots/SS5.PNG) |
+| **Live Camera Tryon** | ![Live Camera Tryon](screenshots/SS6.PNG) |
 
 ---
 
