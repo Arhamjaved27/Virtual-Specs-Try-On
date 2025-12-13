@@ -13,6 +13,8 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
     <!-- Navbar -->
     <nav class="navbar">
         <a href="{{ url_for('home') }}" class="logo">
@@ -25,7 +27,6 @@
     </nav>
 
     <!-- FaceAPI from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
 
     <div class="container">
 
@@ -137,17 +138,17 @@
                     <input type="range" id="frameRotation" min="-45" max="45" value="0" class="slider">
                 </div>
 
-                <button class="btn btn-secondary" id="resetBtn">Reset Position</button>
-                <button class="btn" id="detectFaceBtn">Detect Face & Align</button>
+                <button class="btn " id="resetBtn">Reset Position</button>
+                <button class="btn btn-outline" id="detectFaceBtn">Detect Face & Align</button>
             </div>
         </div>
         {% endif %}
 
         <div class="action-buttons">
             {% if uploaded_image %}
-            <a href="{{ url_for('tryon_image') }}" class="btn">Try Different Photo</a>
+            <a href="{{ url_for('tryon_image') }}" class="btn btn-primary">Try Different Photo</a>
             {% endif %}
-            <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+            <a href="{{ url_for('home') }}" class="btn btn-outline">Back to Home</a>
         </div>
     </div>
 

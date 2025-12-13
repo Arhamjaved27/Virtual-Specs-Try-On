@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request
 
 import os
 
@@ -9,19 +9,26 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
 
-@app.route('/tryon/image', methods=['GET', 'POST'])
-def tryon_image():
-    # Get available frames
+
+# ///////////// This function is used to get all the available frames Dynamically ///////////////////////
+def avaliable_frames():
     frames_dir = os.path.join('static', 'frames')
     available_frames = []
     if os.path.exists(frames_dir):
         available_frames = [f'frames/{f}' for f in os.listdir(frames_dir) 
                            if f.endswith(('.png', '.PNG', '.jpg', '.jpeg'))]
-    
+    return available_frames
+
+# ///////////// Home Route ///////////////////////
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+# ///////////// Tryon Image Route ///////////////////////
+@app.route('/tryon/image', methods=['GET', 'POST'])
+def tryon_image():
+    available_frames = avaliable_frames()    
     if request.method == 'POST':
         file = request.files['photo']
         if file:
@@ -34,13 +41,10 @@ def tryon_image():
             
     return render_template('tryon_image.html', uploaded_image=None, frames=available_frames, face_data=None)
 
+# ///////////// Tryon Live Route ///////////////////////
 @app.route('/tryon/live')
 def tryon_live():
-    frames_dir = os.path.join('static', 'frames')
-    available_frames = []
-    if os.path.exists(frames_dir):
-        available_frames = [f'frames/{f}' for f in os.listdir(frames_dir) 
-                           if f.endswith(('.png', '.PNG', '.jpg', '.jpeg'))]
+    available_frames = avaliable_frames()
     return render_template('tryon_live.html', frames=available_frames)
 
 

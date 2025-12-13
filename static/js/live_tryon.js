@@ -57,7 +57,10 @@ function resizeVideoInContainer() {
     canvas.height = finalHeight;
     
     // Update global for detection loop
-    canvasSize = { width: finalWidth, height: finalHeight };
+    canvasSize = { 
+        width: finalWidth, 
+        height: finalHeight 
+    };
     faceapi.matchDimensions(canvas, canvasSize);
 }
 
@@ -147,7 +150,7 @@ video.addEventListener('play', () => {
             //  Show skeleton
             //  faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
         }
-    }, 100); // 10 fps usually sufficient for trying on, increase for smoothness
+    }, 100); // 10 fps
 });
 
 function getCenter(points) {
@@ -155,7 +158,7 @@ function getCenter(points) {
     return { x: sum.x / points.length, y: sum.y / points.length };
 }
 
-// Frame Selection Logic
+/////////////////////////// Frame Selection Logic /////////////////////////////
 const frameOptions = document.querySelectorAll('.frame-option');
 frameOptions.forEach(option => {
     option.addEventListener('click', function() {
@@ -168,15 +171,15 @@ frameOptions.forEach(option => {
     });
 });
 
-// Update value displays
+/////////////////////////// Update value displays /////////////////////////////
 Object.keys(inputs).forEach(key => {
     inputs[key].addEventListener('input', (e) => {
         displays[key].textContent = e.target.value;
     });
 });
 
-// Select first frame by default if available
+/////////////////////////// Select first frame by default /////////////////////////////
 if (frameOptions.length > 0) {
-    frameOptions[0].click();
+    // frameOptions[0].click();
 }
 

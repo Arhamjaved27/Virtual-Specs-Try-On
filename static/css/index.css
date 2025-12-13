@@ -22,6 +22,9 @@
 
     --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* smooth scroll behavior */
+    scroll-behavior: smooth;
 }
 
 * {
@@ -37,7 +40,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Navbar */
+/* ////////////////////////////////////////Navbar //////////////////////////////////////// */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -102,8 +105,18 @@ body {
     border: none;
 }
 
-.btn-primary {
+.uploadbtn {
     background-color: var(--color-dark);
+    color: var(--color-white);
+}
+
+.uploadbtn:hover {
+    background-color: var(--color-black);
+}
+
+.btn-primary {
+    padding: 1rem 1.5rem;
+    background-color: var(--color-primary);
     color: var(--color-white);
     box-shadow: 0 4px 15px rgba(44, 44, 44, 0.2);
 }
@@ -111,7 +124,7 @@ body {
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(44, 44, 44, 0.3);
-    background-color: var(--color-black);
+    background-color: var(--color-secondary);
 }
 
 .btn-outline {
@@ -126,7 +139,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Hero Section */
+/* ////////////////////////////////////////Hero Section //////////////////////////////////////// */
 .hero {
     height: 100vh;
     display: flex;
@@ -218,43 +231,10 @@ body {
     transform: translateX(10%) scale(1.02);
 }
 
-/* Responsive */
-@media (max-width: 968px) {
-    .hero {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        padding-top: 80px;
-    }
-
-    .hero-content {
-        margin-bottom: 3rem;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .hero h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-image img {
-        transform: none;
-        max-width: 90%;
-    }
-
-    .navbar {
-        padding: 1rem 5%;
-    }
-
-    .nav-links {
-        display: none;
-    }
-}
 
 
-/* Collections Section */
+
+/* ////////////////////////////////////////Collections Section //////////////////////////////////////// */
 
 #collections {
     background-color: var(--color-accent);
@@ -316,8 +296,9 @@ body {
 }
 
 .card-image img {
-    max-width: 100%;
-    max-height: 100%;
+    /* background-color: red; */
+    width: 90%;
+    height: auto;
     filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
     transition: transform 0.3s ease;
 }
@@ -365,7 +346,7 @@ body {
     color: var(--color-white);
 }
 
-/* Feature Section */
+/* ////////////////////////////////////////Feature Section //////////////////////////////////////// */
 .features-section {
     background: var(--color-dark);
     color: var(--color-white);
@@ -419,7 +400,48 @@ body {
     color: var(--color-gray-300);
 }
 
-/* Footer */
+/*//////////////////////////////////////Contact Section ///////////////////////////////////////// */
+.contact-section {
+    padding: 80px 20px;
+    background-color: var(--color-accent);
+}
+
+.contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--color-light);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: var(--color-white);
+    box-shadow: 0 0 0 3px rgba(141, 123, 104, 0.1);
+}
+
+.contact-form button {
+    align-self: flex-start;
+}
+
+/* ////////////////////////////////////////Footer //////////////////////////////////////// */
 footer {
     background: var(--color-footer-bg);
     color: var(--color-white);
@@ -471,4 +493,40 @@ footer {
     text-align: center;
     color: var(--color-gray-600);
     font-size: 0.9rem;
+}
+
+
+/* Responsive */
+@media (max-width: 968px) {
+    .hero {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding-top: 80px;
+    }
+
+    .hero-content {
+        margin-bottom: 3rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-image img {
+        transform: none;
+        max-width: 90%;
+    }
+
+    .navbar {
+        padding: 1rem 5%;
+    }
+
+    .nav-links {
+        display: none;
+    }
 }

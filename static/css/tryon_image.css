@@ -152,6 +152,7 @@ h3 {
 /* Preview Panel */
 .preview-panel {
     background: var(--color-light);
+    /* height: 800px; */
     padding: 20px;
     border-radius: 10px;
     display: flex;
@@ -164,12 +165,21 @@ h3 {
     position: relative;
     width: 100%;
     max-width: 100%;
+    height: 100%;
     margin: 0 auto;
     background: var(--color-white);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
     line-height: 0;
+}
+
+
+#imageZoomWrapper {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease;
+    transform-origin: top left;
 }
 
 .uploaded-img {
@@ -190,7 +200,7 @@ h3 {
 .zoom-controls {
     position: absolute;
     width: 300px;
-    bottom: 20px;
+    top: 20px;
     right: 20px;
     display: flex;
     flex-direction: column;
@@ -316,8 +326,8 @@ h3 {
 #resetBtn {
     width: 100%;
     margin-top: 15px;
-    padding: 10px;
-    background: var(--color-secondary);
+    padding: 15px 10px;
+    background: var(--color-primary);
     color: var(--color-white);
 }
 
@@ -356,12 +366,6 @@ h3 {
     }
 }
 
-#imageZoomWrapper {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.2s ease;
-    transform-origin: top left;
-}
 
 #frameOverlay {
     display: none;
