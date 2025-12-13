@@ -16,10 +16,11 @@ pip-log.txt
 
 # Environment variables
 .env
-.env.*
+.env.*s
 
 
 # Uploads (keep the .gitkeep so repo keeps the folder)
+/uploads
 uploads/*
 !uploads/.gitkeep
 models/*

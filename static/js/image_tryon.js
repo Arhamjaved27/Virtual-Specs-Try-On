@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // --- State ---
-    let faceData = null; // { x, y, width, rotation } (percentages relative to image)
+    let faceData = null; // { x, y, width, rotation } 
     let currentFrameSrc = null;
     let isModelLoaded = false;
 
@@ -167,7 +167,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event Listeners for Sliders
     Object.values(sliders).forEach(slider => {
-        slider.addEventListener('input', updateFramePosition);
+        if (slider) {
+            slider.addEventListener('input', updateFramePosition);
+        }
     });
 
     // Reset Button
@@ -257,10 +259,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Detect Face Button
+    const detectFaceBtn = document.getElementById('detectFaceBtn');
+    if (detectFaceBtn) {
+        detectFaceBtn.addEventListener('click', async () => {
+             console.log("Manual face detection triggered.");
+             
+             if (!isModelLoaded) {
+                 alert("Please wait for AI models to load.");
+                 return;
+             }
+             
+             try {
+                await detectFace();
+             } catch (error) {
+                 console.error("Manual detection failed:", error);
+                 alert("Face detection failed: " + error.message);
+             }
+        });
+    }
+
     // Initialize
     init();
 
-    // --- File Input Styling Logic (Merged) ---
     const fileInput = document.getElementById('file');
     const fileTextSpan = document.querySelector('.custum-file-upload .text span');
 
@@ -276,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const container = document.querySelector('.custum-file-upload');
                 container.style.borderColor = 'var(--color-primary)';
-                container.style.backgroundColor = 'rgba(141, 123, 104, 0.9)';
+                container.style.backgroundColor = 'rgba(88, 67, 43, 0.9)';
             } else {
                 fileTextSpan.textContent = 'Click to upload image';
             }

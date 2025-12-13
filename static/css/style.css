@@ -1,10 +1,8 @@
 /* Image Try-On Specific Styles */
 
 .container {
-    /* Override index.css container if needed, but index.css doesn't have .container class? 
-       Wait, index.css DOES NOT have .container. So I should keep .container but update it. */
     margin: 10px auto;
-    max-width: 1200px;
+    max-width: 1900px;
     background: #fff;
     padding: 30px;
     border-radius: 20px;
@@ -12,8 +10,6 @@
 }
 
 h1 {
-    /* Index.css headers might differ, but let's keep specific sizing if needed or rely on global? 
-       Index.css has .hero h1 but no global h1 style. Let's keep it but use vars. */
     color: var(--color-dark);
     text-align: center;
     margin-bottom: 30px;
@@ -41,7 +37,7 @@ h3 {
     margin: 20px auto;
     padding: 40px;
     background: var(--color-light);
-    border-radius: 20px;
+    border-radius: 15px;
     border: 2px dashed rgba(0, 0, 0, 0.1);
 }
 
@@ -72,7 +68,6 @@ h3 {
 .custum-file-upload:hover {
     border-color: var(--color-primary);
     background-color: rgba(141, 123, 104, 0.05);
-    /* Tint */
 }
 
 .custum-file-upload .icon svg {
@@ -99,7 +94,7 @@ h3 {
 .tryon-workspace {
     display: grid;
     grid-template-columns: 350px 1fr 350px;
-    gap: 30px;
+    gap: 10px;
     margin-top: 30px;
 }
 
@@ -107,7 +102,7 @@ h3 {
 .frame-panel {
     background: var(--color-light);
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     max-height: 800px;
     overflow-y: auto;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -122,7 +117,7 @@ h3 {
 .frame-option {
     background: #fff;
     padding: 10px;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: var(--transition);
     border: 2px solid transparent;
@@ -131,6 +126,7 @@ h3 {
 
 .frame-option:hover {
     transform: translateY(-2px);
+    border-color: var(--color-primary);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
@@ -158,11 +154,10 @@ h3 {
 .preview-panel {
     background: var(--color-light);
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Center content vertically if image is small */
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -170,15 +165,12 @@ h3 {
     position: relative;
     width: 100%;
     max-width: 100%;
-    /* Let it fill the panel */
     margin: 0 auto;
     background: #fff;
-    /* White bg behind image */
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
     line-height: 0;
-    /* Remove gap */
 }
 
 .uploaded-img {
@@ -199,6 +191,7 @@ h3 {
 /* Zoom Controls */
 .zoom-controls {
     position: absolute;
+    width: 300px;
     bottom: 20px;
     right: 20px;
     display: flex;
@@ -208,14 +201,14 @@ h3 {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(5px);
     padding: 10px;
-    border-radius: 12px;
+    border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     align-items: center;
 }
 
 .zoom-buttons {
     display: flex;
-    gap: 8px;
+    gap: 15px;
 }
 
 .pan-control {
@@ -226,7 +219,7 @@ h3 {
 .pan-control input[type=range] {
     width: 100%;
     height: 4px;
-    background: #ddd;
+    background: #724646;
     border-radius: 2px;
     appearance: none;
     outline: none;
@@ -234,8 +227,8 @@ h3 {
 
 .pan-control input[type=range]::-webkit-slider-thumb {
     appearance: none;
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     background: var(--color-primary);
     border-radius: 50%;
     cursor: pointer;
@@ -244,7 +237,7 @@ h3 {
 .zoom-btn {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: 20%;
     border: none;
     background: var(--color-primary);
     color: white;
@@ -265,7 +258,7 @@ h3 {
 .controls-panel {
     background: var(--color-light);
     padding: 25px;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 

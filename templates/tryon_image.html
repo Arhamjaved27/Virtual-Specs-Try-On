@@ -109,31 +109,38 @@
                 <h3>Adjust Frame</h3>
 
                 <div class="control-group">
-                    <label for="frameX">Horizontal Position: <span id="frameXValue">50.0</span>%</label>
+                    <label for="frameX">Horizontal Position: <span class="framin"><span id="frameXValue">50.0</span>%
+                        </span></label>
                     <input type="range" id="frameX" min="0" max="1000" value="500" step="0.1" class="slider">
                 </div>
 
                 <div class="control-group">
-                    <label for="frameY">Vertical Position: <span id="frameYValue">30.0</span>%</label>
+                    <label for="frameY">Vertical Position: <span class="framin"><span id="frameYValue">30.0</span>%
+                        </span></label>
                     <input type="range" id="frameY" min="0" max="1000" value="300" step="0.1" class="slider">
                 </div>
 
                 <div class="control-group">
-                    <label for="frameWidth">Width: <span id="frameWidthValue">40.0</span>%</label>
+                    <label for="frameWidth">Width: <span class="framin"><span id="frameWidthValue">40.0</span>%
+                        </span></label>
                     <input type="range" id="frameWidth" min="100" max="1000" value="400" step="0.1" class="slider">
                 </div>
 
                 <div class="control-group">
-                    <label for="frameOpacity">Opacity: <span id="frameOpacityValue">100</span>%</label>
+                    <label for="frameOpacity">Opacity: <span class="framin"><span id="frameOpacityValue">100</span>%
+                        </span></label>
                     <input type="range" id="frameOpacity" min="0" max="100" value="100" class="slider">
                 </div>
 
                 <div class="control-group">
-                    <label for="frameRotation">Rotation: <span id="frameRotationValue">0</span>°</label>
+                    <label for="frameRotation">Rotation: <span class="framin"><span id="frameRotationValue">0</span>°
+                        </span></label>
                     <input type="range" id="frameRotation" min="-45" max="45" value="0" class="slider">
                 </div>
 
                 <button class="btn btn-secondary" id="resetBtn">Reset Position</button>
+                <button class="btn" id="detectFaceBtn" style="margin-top: 10px; width: 100%;">Detect Face &
+                    Align</button>
             </div>
         </div>
         {% endif %}
