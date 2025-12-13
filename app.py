@@ -9,10 +9,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
-# Ensure upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -31,15 +27,7 @@ def tryon_image():
         if file:
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(filepath)
-            
-            # Read image to validation
-            # img = cv2.imread(filepath)
-            
-            # Simple process - just use the original image for now
-            # processed_path = os.path.join(app.config['UPLOAD_FOLDER'], 'processed_' + file.filename)
-            # cv2.imwrite(processed_path, img) # If we needed to process it
-            
-            # For now, just use the uploaded file directly
+
             relative_path = 'uploads/' + file.filename
             
             return render_template('tryon_image.html', uploaded_image=relative_path, frames=available_frames, face_data=None)
@@ -48,7 +36,6 @@ def tryon_image():
 
 @app.route('/tryon/live')
 def tryon_live():
-    # Get available frames logic is duplicated, but okay for now or could refactor
     frames_dir = os.path.join('static', 'frames')
     available_frames = []
     if os.path.exists(frames_dir):
