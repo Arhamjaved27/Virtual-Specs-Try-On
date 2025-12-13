@@ -47,12 +47,156 @@
     </div>
 
     <div class="hero-image">
-      <!-- Using the user uploaded image which we copied to static/hero_bg.png -->
-      <!-- If the generate_image tool succeeded we would use that, but it failed so we use manual fallback or the copied one -->
-      <img src="{{ url_for('static', filename='bg_main.jpg') }}" alt="Premium Eyeglasses"
-        onerror="this.src='https://images.unsplash.com/photo-1577803645773-f96470509666?q=80&w=1000&auto=format&fit=crop'">
+      <img src="{{ url_for('static', filename='hero_glasses.png') }}" alt="Premium Eyeglasses">
     </div>
   </section>
+
+  <!-- Collections Section -->
+  <section id="collections" class="section-padding">
+    <div class="section-header">
+      <h2>Featured Collections</h2>
+      <p>Discover our latest arrivals, crafted for elegance and comfort.</p>
+    </div>
+
+    <div class="product-grid">
+      <!-- Product 1 -->
+      <div class="frame-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='frames/frame1.png') }}" alt="Classic Tortoise">
+        </div>
+        <div class="card-details">
+          <h3>Classic Tortoise</h3>
+          <p>Timeless elegance for the modern soul.</p>
+          <a href="{{ url_for('tryon_live') }}" class="card-btn">Try On Now</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="frame-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='frames/frame2.png') }}" alt="Modern Black">
+        </div>
+        <div class="card-details">
+          <h3>Modern Black</h3>
+          <p>Bold definition for a sharp look.</p>
+          <a href="{{ url_for('tryon_live') }}" class="card-btn">Try On Now</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="frame-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='frames/frame3.png') }}" alt="Gold Aviator">
+        </div>
+        <div class="card-details">
+          <h3>Gold Aviator</h3>
+          <p>Vintage vibes with a golden touch.</p>
+          <a href="{{ url_for('tryon_live') }}" class="card-btn">Try On Now</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="frame-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='frames/frame4.png') }}" alt="Round Metal">
+        </div>
+        <div class="card-details">
+          <h3>Round Metal</h3>
+          <p>Intellectual chic fits any face.</p>
+          <a href="{{ url_for('tryon_live') }}" class="card-btn">Try On Now</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="frame-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='frames/frame5.png') }}" alt="Crystal Clear">
+        </div>
+        <div class="card-details">
+          <h3>Crystal Clear</h3>
+          <p>Minimalist design, maximum impact.</p>
+          <a href="{{ url_for('tryon_live') }}" class="card-btn">Try On Now</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="frame-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='frames/sample_frame.png') }}" alt="Premium Blue">
+        </div>
+        <div class="card-details">
+          <h3>Premium Blue</h3>
+          <p>A splash of color for the bold.</p>
+          <a href="{{ url_for('tryon_live') }}" class="card-btn">Try On Now</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="section-header" style="color: white;">
+      <h2 style="color: white;">Why Choose Arham Optics?</h2>
+      <p style="color: #ccc;">Experience the difference of premium quality and technology.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-box">
+        <i class="fa-solid fa-wand-magic-sparkles feature-icon"></i>
+        <h3>AI Precision</h3>
+        <p>Our advanced AI accurately maps your face to ensure a perfect virtual fit every time.</p>
+      </div>
+
+      <div class="feature-box">
+        <i class="fa-solid fa-glasses feature-icon"></i>
+        <h3>Premium Materials</h3>
+        <p>We source only the finest acetate and metals for lightweight, durable frames.</p>
+      </div>
+
+      <div class="feature-box">
+        <i class="fa-solid fa-truck-fast feature-icon"></i>
+        <h3>Fast Delivery</h3>
+        <p>Order today and get your custom-fitted glasses delivered to your doorstep in no time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h4>About Arham Optics</h4>
+        <p style="color: #888; line-height: 1.6;">
+          Redefining eyewear shopping with cutting-edge technology and premium design. We bring the optical store to
+          your screen.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#collections">Shop Collections</a></li>
+          <li><a href="{{ url_for('tryon_live') }}">Live Try-On</a></li>
+          <li><a href="{{ url_for('tryon_image') }}">Photo Try-On</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fa-solid fa-envelope"></i> arhamjaved867@gmail.com</a></li>
+          <li><a href="#"><i class="fa-solid fa-phone"></i> +92 3245341362</a></li>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Arham Optics</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Arham Optics. All rights reserved. | Built by Arham</p>
+    </div>
+  </footer>
 
 </body>
 

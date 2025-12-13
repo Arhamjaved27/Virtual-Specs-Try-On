@@ -64,4 +64,4 @@ if __name__ == '__main__':
     server = Server(app.wsgi_app)
     server.watch('static/')
     server.watch('templates/')
-    server.serve(port=5000)
+    server.serve()
