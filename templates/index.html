@@ -18,10 +18,10 @@
     </a>
 
     <ul class="nav-links">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Collections</a></li>
+      <li><a href="#Hero">Home</a></li>
+      <li><a href="#collections">Collections</a></li>
       <li><a href="#">Technology</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#Footer">Contact</a></li>
     </ul>
 
     <div class="nav-actions">
@@ -32,7 +32,7 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section id="Hero" class="hero">
     <div class="hero-content">
       <span class="hero-tag">New Collection 2024</span>
       <h1>Find Your Perfect <br><span>Frame</span> of Mind.</h1>
@@ -136,9 +136,9 @@
 
   <!-- Features Section -->
   <section class="features-section">
-    <div class="section-header" style="color: white;">
-      <h2 style="color: white;">Why Choose Arham Optics?</h2>
-      <p style="color: #ccc;">Experience the difference of premium quality and technology.</p>
+    <div class="section-header">
+      <h2>Why Choose Arham Optics?</h2>
+      <p>Experience the difference of premium quality and technology.</p>
     </div>
 
     <div class="features-grid">
@@ -163,11 +163,11 @@
   </section>
 
   <!-- Footer -->
-  <footer>
+  <footer id="Footer">
     <div class="footer-content">
       <div class="footer-col">
         <h4>About Arham Optics</h4>
-        <p style="color: #888; line-height: 1.6;">
+        <p>
           Redefining eyewear shopping with cutting-edge technology and premium design. We bring the optical store to
           your screen.
         </p>
@@ -176,7 +176,7 @@
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul class="footer-links">
-          <li><a href="#">Home</a></li>
+          <li><a href="#Hero">Home</a></li>
           <li><a href="#collections">Shop Collections</a></li>
           <li><a href="{{ url_for('tryon_live') }}">Live Try-On</a></li>
           <li><a href="{{ url_for('tryon_image') }}">Photo Try-On</a></li>

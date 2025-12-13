@@ -2,19 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-    /* Premium Palette */
-    --color-primary: #8D7B68;
-    /* Muted Earthy Brown */
-    --color-secondary: #C8B6A6;
-    /* Soft Beige */
-    --color-accent: #F1DEC9;
-    /* Cream */
+    --color-primary: #ff8001;
+    --color-secondary: #dd7b25;
+    --color-accent: #ffbd83d5;
     --color-dark: #2C2C2C;
-    /* Charcoal Black */
     --color-text: #4A4A4A;
-    /* Dark Grey */
     --color-light: #FAFAFA;
-    /* Off White */
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+    --color-gray-100: #f8f9fa;
+    --color-gray-200: #e0e0e0;
+    --color-gray-300: #cccccc;
+    --color-gray-500: #888888;
+    --color-gray-600: #666666;
+    --color-footer-bg: #1a1a1a;
+    --color-brown-dark: #724646;
 
     --font-main: 'Outfit', sans-serif;
 
@@ -102,14 +104,14 @@ body {
 
 .btn-primary {
     background-color: var(--color-dark);
-    color: white;
+    color: var(--color-white);
     box-shadow: 0 4px 15px rgba(44, 44, 44, 0.2);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(44, 44, 44, 0.3);
-    background-color: #000;
+    background-color: var(--color-black);
 }
 
 .btn-outline {
@@ -120,7 +122,7 @@ body {
 
 .btn-outline:hover {
     background-color: var(--color-dark);
-    color: white;
+    color: var(--color-white);
     transform: translateY(-2px);
 }
 
@@ -132,13 +134,12 @@ body {
     justify-content: space-between;
     padding: 0 5%;
     margin-top: 0;
-    /* Navbar is fixed */
     background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
     position: relative;
     overflow: hidden;
 }
 
-/* Abstract Background Shapes */
+
 .hero::before {
     content: '';
     position: absolute;
@@ -162,7 +163,7 @@ body {
     display: inline-block;
     padding: 0.5rem 1rem;
     background: var(--color-secondary);
-    color: white;
+    color: var(--color-white);
     border-radius: 4px;
     font-size: 0.8rem;
     font-weight: 600;
@@ -185,7 +186,7 @@ body {
 
 .hero p {
     font-size: 1.1rem;
-    color: #666;
+    color: var(--color-gray-600);
     line-height: 1.6;
     margin-bottom: 2.5rem;
 }
@@ -249,13 +250,16 @@ body {
 
     .nav-links {
         display: none;
-        /* Mobile menu hidden for simplicity MVP */
     }
 }
 
-/* --- New Sections Styles --- */
 
 /* Collections Section */
+
+#collections {
+    background-color: var(--color-accent);
+}
+
 .section-padding {
     padding: 100px 5%;
 }
@@ -272,7 +276,7 @@ body {
 }
 
 .section-header p {
-    color: #666;
+    color: var(--color-gray-600);
     max-width: 600px;
     margin: 0 auto;
 }
@@ -286,7 +290,7 @@ body {
 }
 
 .frame-card {
-    background: white;
+    background: var(--color-gray-100);
     border-radius: 20px;
     overflow: hidden;
     transition: var(--transition);
@@ -303,7 +307,7 @@ body {
 
 .card-image {
     padding: 30px;
-    background: #f8f9fa;
+    background: var(--color-white);
     height: 250px;
     display: flex;
     align-items: center;
@@ -338,7 +342,7 @@ body {
 }
 
 .card-details p {
-    color: #888;
+    color: var(--color-gray-500);
     font-size: 0.9rem;
     margin-bottom: 20px;
     flex: 1;
@@ -358,13 +362,13 @@ body {
 
 .card-btn:hover {
     background: var(--color-dark);
-    color: white;
+    color: var(--color-white);
 }
 
 /* Feature Section */
 .features-section {
     background: var(--color-dark);
-    color: white;
+    color: var(--color-white);
     padding: 100px 5%;
 }
 
@@ -402,14 +406,23 @@ body {
 }
 
 .feature-box p {
-    color: #ccc;
+    color: var(--color-gray-300);
     line-height: 1.6;
+}
+
+/* Features Section Specific Overrides */
+.features-section .section-header h2 {
+    color: var(--color-white);
+}
+
+.features-section .section-header p {
+    color: var(--color-gray-300);
 }
 
 /* Footer */
 footer {
-    background: #1a1a1a;
-    color: white;
+    background: var(--color-footer-bg);
+    color: var(--color-white);
     padding: 60px 5% 30px;
 }
 
@@ -430,6 +443,11 @@ footer {
     color: var(--color-primary);
 }
 
+.footer-col p {
+    color: var(--color-gray-500);
+    line-height: 1.6;
+}
+
 .footer-links {
     list-style: none;
 }
@@ -439,7 +457,7 @@ footer {
 }
 
 .footer-links a {
-    color: #888;
+    color: var(--color-gray-500);
     text-decoration: none;
     transition: var(--transition);
 }
@@ -451,6 +469,6 @@ footer {
 
 .footer-bottom {
     text-align: center;
-    color: #666;
+    color: var(--color-gray-600);
     font-size: 0.9rem;
 }

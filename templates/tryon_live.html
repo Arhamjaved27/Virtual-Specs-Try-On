@@ -16,6 +16,7 @@
         <a href="{{ url_for('home') }}" class="logo">
             <i class="fa-solid fa-glasses"></i> Arham<span>Optics</span>
         </a>
+        <h2>Live Specs Try-On</h2>
         <div class="nav-actions">
             <a href="{{ url_for('home') }}" class="btn btn-outline">Back Home</a>
         </div>
@@ -27,8 +28,7 @@
             <div id="loadingOverlay">
                 <p><i class="fa-solid fa-spinner fa-spin"></i> Loading AI Models...</p>
             </div>
-            <div id="debugStatus"
-                style="position: absolute; top: 10px; left: 10px; z-index: 20; color: lime; background: rgba(0,0,0,0.5); padding: 5px; font-family: monospace; font-size: 12px; pointer-events: none;">
+            <div id="debugStatus">
                 Initializing...
             </div>
             <video id="inputVideo" autoplay muted playsinline></video>
@@ -69,7 +69,7 @@
                 <input type="range" id="scaleScale" min="0.5" max="2.0" step="0.05" value="1.0">
             </div>
 
-            <p style="font-size: 0.8rem; color: #999; margin-top:20px;">
+            <p class="tip-text">
                 <i class="fa-solid fa-lightbulb"></i> Tip: Face alignment is automatic. Use sliders for minor
                 adjustments.
             </p>
