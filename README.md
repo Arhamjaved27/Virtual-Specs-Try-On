@@ -89,7 +89,7 @@ Go to your browser and visit:
 ![Why Chose Us](screenshots/SS3.PNG)
 ![Image Tryon upload](screenshots/SS4.PNG)
 ![Image Tryon Editor](screenshots/SS5.PNG)
-![Live Camera Tryon](screenshots/SS6.PNG)
+![Live Camera Tryon](screenshots/SS62.JPG)
 
 ---
 
