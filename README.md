@@ -84,14 +84,12 @@ Go to your browser and visit:
 
 ## 📸 Screenshots
 
-| **Name** | **Screen Shot** |
-|:---:|:---:|
-| **Home Page** | ![Home Page](screenshots/SS1.PNG) |
-| **Collection** | ![Collection](screenshots/SS2.PNG) |
-| **Why Chose Us** | ![Why Chose Us](screenshots/SS3.PNG) |
-| **Image Tryon upload** | ![Image Tryon upload](screenshots/SS4.PNG) |
-| **Image Tryon Editor** | ![Image Tryon Editor](screenshots/SS5.PNG) |
-| **Live Camera Tryon** | ![Live Camera Tryon](screenshots/SS6.PNG) |
+![Home Page](screenshots/SS1.PNG)
+![Collection](screenshots/SS2.PNG)
+![Why Chose Us](screenshots/SS3.PNG)
+![Image Tryon upload](screenshots/SS4.PNG)
+![Image Tryon Editor](screenshots/SS5.PNG)
+![Live Camera Tryon](screenshots/SS6.PNG)
 
 ---
 
