@@ -24,3 +24,5 @@ pip-log.txt
 uploads/*
 !uploads/.gitkeep
 models/*
+
+VIDEO_SCRIPT.md

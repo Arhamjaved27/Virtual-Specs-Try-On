@@ -153,3 +153,52 @@ input[type=range] {
     color: var(--color-gray-500);
     margin-top: 20px;
 }
+
+
+/* Hide zoom controls on small screens (phones) */
+@media (max-width: 600px) {
+    .heading{
+         display: none !important;
+    }
+}
+
+/* Mobile: Disable live camera UI and show a message */
+@media (max-width: 768px) {
+    /* hide controls and status overlays */
+    .controls-sidebar,
+    #loadingOverlay,
+    #debugStatus {
+        display: none !important;
+    }
+
+    /* hide the actual video/canvas so only message is shown */
+    video,
+    canvas {
+        display: none !important;
+    }
+
+    /* make video panel display a clear message */
+    .video-panel {
+        background: var(--color-white);
+        min-height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .video-panel::before {
+        content: "Live camera is available only on desktop. Please use a desktop to access this feature.";
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        text-align: center;
+        font-size: 1rem;
+        color: var(--color-dark);
+        background: var(--color-white);
+        z-index: 30;
+    }
+}

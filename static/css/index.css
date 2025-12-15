@@ -530,3 +530,31 @@ footer {
         display: none;
     }
 }
+
+/* Further reduce navbar button size on small/mobile screens */
+@media (max-width: 600px) {
+    .navbar {
+        padding: 0.6rem 4%;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-actions {
+        gap: 0.5rem;
+    }
+
+    .navbar .nav-actions .btn,
+    .navbar .nav-actions .uploadbtn,
+    .navbar .nav-actions .btn-outline,
+    .navbar .nav-actions .btn-primary {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.82rem;
+        border-radius: 26px;
+    }
+
+    .btn-primary {
+        padding: 0.45rem 0.9rem;
+    }
+}
