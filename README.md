@@ -96,7 +96,6 @@ Go to your browser and visit:
 ## 👨‍💻 Developer
 
 Developed with ❤️ by **Arham**.  
-*Building the future of eyewear shopping, one line of code at a time.*
 
 ---
 
